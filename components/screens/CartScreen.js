@@ -45,20 +45,24 @@ class Item extends Component {
     auth().onAuthStateChanged((user) => {
       this.setState({ user: user });
 
-      var userRef = firebase
-        .database()
-        .ref('/users/' + user.phoneNumber);
+      if (this.state.user != null) {
 
-      userRef.once('value', function (snapshot) {
-        var address = snapshot.val().address;
-        var phone = snapshot.val().phone;
+        var userRef = firebase
+          .database()
+          .ref('/users/' + user.phoneNumber);
 
-        console.log('asdfsdf', address);
+        userRef.once('value', function (snapshot) {
+          var address = snapshot.val().address;
+          var phone = snapshot.val().phone;
 
-        this.setState({ usr_address: address, phoneNumber: phone });
+          console.log('asdfsdf', address);
+
+          this.setState({ usr_address: address, phoneNumber: phone });
 
 
-      }.bind(this));
+        }.bind(this));
+
+      }
 
       // this.setState({ usr_address: address });
     });
@@ -174,7 +178,7 @@ class Item extends Component {
         </View>
 
         {/* //hello */}
-        < View >
+        < View style={{ padding: 10 }}>
 
           <Text>
             Shipping Address:
@@ -182,7 +186,7 @@ class Item extends Component {
 
           <TextInput
             style={{ height: 40 }}
-            placeholder="Type here to translate!"
+            placeholder="shopping address"
             onChangeText={text => this.setState({ usr_address: text })}
             defaultValue={this.state.usr_address}
           />
@@ -193,7 +197,7 @@ class Item extends Component {
 
           <TextInput
             style={{ height: 40 }}
-            placeholder="Type here to translate!"
+            placeholder="your phone number"
             onChangeText={text => this.setState({ phoneNumber: text })}
             defaultValue={this.state.phoneNumber}
           />

@@ -42,7 +42,7 @@ const HomeStackScreen = () => {
         name="Home"
         component={HomeScreen}
         options={({ navigation }) => ({
-          title: '',
+          title: 'Malamal Express',
           headerRight: () => <SearchBar navigation={navigation} />,
         })}
       />
@@ -59,8 +59,8 @@ const HomeStackScreen = () => {
         name="SubCategories"
         component={SubCategories}
         options={({ navigation }) => ({
-          title: '',
-          headerShown: false,
+          title: 'Sub Categories',
+          headerShown: true,
         })}
       />
 
