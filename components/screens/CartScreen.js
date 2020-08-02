@@ -21,6 +21,8 @@ import {
 import auth from '@react-native-firebase/auth';
 import firebase from '../../firebase';
 import DeviceInfo from 'react-native-device-info';
+import { min } from 'react-native-reanimated';
+const uniqueId = DeviceInfo.getUniqueId();
 
 
 class Item extends Component {
@@ -31,7 +33,7 @@ class Item extends Component {
       user: {},
       usr_address: '',
       phoneNumber: '',
-      cartList: [{ a: 'dfs', b: '3434' }],
+      cartList: [],
     };
   }
 
@@ -106,6 +108,7 @@ class Item extends Component {
                   onPress={() =>
                     this.props.updateCart(
                       item.key,
+                      item.id,
                       item.title,
                       item.price,
                       item.qnt > 1 ? item.qnt - 1 : 1,
@@ -130,6 +133,7 @@ class Item extends Component {
                   onPress={() =>
                     this.props.updateCart(
                       item.key,
+                      item.id,
                       item.title,
                       item.price,
                       item.qnt < 100 ? item.qnt + 1 : 100,
@@ -259,6 +263,8 @@ class Item extends Component {
                           //   products: data,
                           // });
 
+                          // console.log('total data --- ????? ', data);
+
 
                           fetch('https://malamalexpress.com/wp-json/wc/v3/orders?consumer_key=ck_81f3d226061502f03d08f90c4de4c00bc47a8c6d&consumer_secret=cs_5b5b9513a2841084ce434c0c192b7755cd284b32', {
                             method: 'POST',
@@ -285,7 +291,7 @@ class Item extends Component {
                               shipping: {
                                 first_name: "Jahid",
                                 last_name: "Ahsan",
-                                address_1: "Kamarpara",
+                                address_1: this.state.usr_address,
                                 address_2: this.state.usr_address,
                                 city: "Dhaka",
                                 state: "",
@@ -303,6 +309,29 @@ class Item extends Component {
                             })
                           })
                             .then((response) => {
+
+                              console.log('orderrr:  ' + JSON.stringify(response));
+
+                              if (response.status === 201) {
+
+                                console.log('response:   yess');
+                                var orderRef = firebase.database().ref('/orders/' + this.state.user.phoneNumber);
+                                var date = new Date().getDate();
+                                var month = new Date().getMonth() + 1;
+                                var year = new Date().getFullYear();
+                                var hours = new Date().getHours();
+                                var mins = new Date().getMinutes();
+
+                                orderRef.push({
+                                  total: total,
+                                  total_items: data.length,
+                                  date: date + '/' + month + '/' + year,
+                                  time: hours + ':' + mins
+                                });
+
+
+                              }
+                              // console.log('response status ' + response.status);
                               // // Successful request
                               // console.log("Response Status:", response.status);
                               // console.log("Response Headers:", response.headers);
@@ -310,7 +339,7 @@ class Item extends Component {
                             })
                             .catch((error) => {
                               // Invalid request, for 4xx and 5xx statuses
-                              console.log("ERR Response Status:", error);
+                              // console.log("ERR Response Status:", error);
                               // console.log("ERR Response Headers:", error.response.headers);
                               // console.log("ERR Response Data:", error.response.data);
                             })
@@ -322,7 +351,7 @@ class Item extends Component {
 
                         }.bind(this));
 
-                        const uniqueId = DeviceInfo.getUniqueId();
+
                         var cartRef = firebase.database().ref('/cart');
                         cartRef.child(uniqueId).remove();
 

@@ -106,7 +106,7 @@ class Products extends Component {
           source={{ uri: this.props.item.images[0].src }} />
         <View style={{ height: ((width / 2) - 20) - 90, backgroundColor: 'transparent', width: ((width / 2) - 20) - 10, flex: 1 }} />
         <Text style={{ fontWeight: 'bold', fontSize: 22, textAlign: 'center' }}>
-          {this.props.item.title}
+          {this.props.item.name}
         </Text>
         <Text style={{ fontSize: 20, color: "green" }}>৳{this.props.item.price}</Text>
       </TouchableOpacity>

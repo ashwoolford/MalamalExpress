@@ -77,16 +77,16 @@ const HomeStackScreen = () => {
   );
 };
 
-const NotificationStack = createStackNavigator();
+const OrderHistoryStack = createStackNavigator();
 
 const NotificationStackScreen = () => {
   return (
-    <NotificationStack.Navigator>
-      <NotificationStack.Screen
-        name="Notification"
+    <OrderHistoryStack.Navigator>
+      <OrderHistoryStack.Screen
+        name="Order History"
         component={NotificationScreen}
       />
-    </NotificationStack.Navigator>
+    </OrderHistoryStack.Navigator>
   );
 };
 
@@ -129,10 +129,10 @@ const App = () => {
                     color={color}
                   />
                 );
-              } else if (route.name === 'Notifications') {
+              } else if (route.name === 'Order History') {
                 return (
                   <Icon
-                    name={focused ? 'ios-notifications' : 'ios-notifications'}
+                    name={focused ? 'md-list' : 'md-list'}
                     size={size}
                     color={color}
                   />
@@ -162,7 +162,7 @@ const App = () => {
           }}>
           <Tab.Screen name="Home" component={HomeStackScreen} />
           <Tab.Screen
-            name="Notifications"
+            name="Order History"
             component={NotificationStackScreen}
           />
           <Tab.Screen name="Cart" component={CartStackScreen} />

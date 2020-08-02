@@ -3,6 +3,7 @@ import DeviceInfo from 'react-native-device-info';
 
 const uniqueId = DeviceInfo.getUniqueId();
 
+
 export function getCarts() {
   return (dispatch) => {
     firebase
@@ -45,11 +46,11 @@ export function postCart(id, title, price, qnt = 1) {
   };
 }
 
-export function updateCart(key, title, price, qnt) {
-  console.log(key, title, price, qnt);
+export function updateCart(key, id, title, price, qnt) {
+  console.log(key, id, title, price, qnt);
   return (dispatch) => {
     var ref = firebase.database().ref(`/cart/${uniqueId}`);
-    ref.child(key).set({ title, price, qnt });
+    ref.child(key).set({ id, title, price, qnt });
   };
 }
 
